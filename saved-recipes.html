@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Saved Recipes - FFTS</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Pacifico&display=swap" rel="stylesheet">
+    <style>
+        .saved-recipes-header {
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        .saved-recipes-title {
+            font-family: 'Pacifico', cursive;
+            color: #d85c3a;
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+        
+        .saved-recipes-subtitle {
+            font-family: 'Playfair Display', serif;
+            color: #7c5e3a;
+            font-size: 1.2rem;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 50px;
+            color: #7c5e3a;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        .nav-link {
+            display: inline-block;
+            margin: 0 15px;
+            padding: 10px 20px;
+            background-color: #d85c3a;
+            color: white;
+            text-decoration: none;
+            border-radius: 20px;
+            transition: background-color 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            background-color: #bf4b29;
+        }
+        
+        .remove-recipe-btn {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 10px;
+            transition: background-color 0.3s ease;
+        }
+        
+        .remove-recipe-btn:hover {
+            background-color: #c82333;
+        }
+        
+        .recipe-actions {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <header>
+            <h1 class="animated-title">FFTS</h1>
+            <p class="animated-subtitle">Food for the Soul</p>
+        </header>
+    </div>
+
+    <div class="saved-recipes-header">
+        <h2 class="saved-recipes-title">My Saved Recipes</h2>
+        <p class="saved-recipes-subtitle">All your favorite recipes in one place</p>
+    </div>
+    
+    <div class="nav-container">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="profile.html" class="nav-link">Profile</a>
+    </div>
+    
+    <div id="saved-recipes-container" class="recipe-container">
+        <!-- Saved recipes will be dynamically loaded here -->
+        <div class="empty-state">
+            <p>Loading your saved recipes...</p>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+    <script src="recipe-manager.js"></script>
+</body>
+</html>

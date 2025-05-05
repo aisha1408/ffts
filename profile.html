@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - FFTS</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Pacifico&display=swap" rel="stylesheet">
+    <style>
+        .profile-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .profile-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .profile-title {
+            font-family: 'Pacifico', cursive;
+            color: #d85c3a;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .profile-form label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        .profile-form input,
+        .profile-form select,
+        .profile-form textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+        
+        .profile-form button {
+            padding: 15px 30px;
+            background-color: #d85c3a;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .profile-form button:hover {
+            background-color: #bf4b29;
+        }
+        
+        .form-section {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .form-section:last-child {
+            border-bottom: none;
+        }
+        
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            color: #7c5e3a;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        .nav-link {
+            display: inline-block;
+            margin: 0 15px;
+            padding: 10px 20px;
+            background-color: #d85c3a;
+            color: white;
+            text-decoration: none;
+            border-radius: 20px;
+            transition: background-color 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            background-color: #bf4b29;
+        }
+        
+        .error-message {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .success-message {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <header>
+            <h1 class="animated-title">FFTS</h1>
+            <p class="animated-subtitle">Food for the Soul</p>
+        </header>
+    </div>
+
+    <div class="nav-container">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="saved-recipes.html" class="nav-link">My Saved Recipes</a>
+    </div>
+
+    <div class="profile-container">
+        <div class="profile-header">
+            <h2 class="profile-title">My Profile</h2>
+            <p id="username-display">Username: Loading...</p>
+        </div>
+        
+        <div id="profile-error" class="error-message"></div>
+        <div id="profile-success" class="success-message"></div>
+        
+        <form id="preferences-form" class="profile-form">
+            <div class="form-section">
+                <h3 class="section-title">Food Preferences</h3>
+                
+                <div>
+                    <label for="preferred-cuisine">Preferred Cuisine</label>
+                    <select id="preferred-cuisine">
+                        <option value="">Select Preferred Cuisine</option>
+                        <option value="Italian">Italian</option>
+                        <option value="Mexican">Mexican</option>
+                        <option value="Indian">Indian</option>
+                        <option value="Chinese">Chinese</option>
+                        <option value="Thai">Thai</option>
+                        <option value="American">American</option>
+                        <option value="Mediterranean">Mediterranean</option>
+                        <option value="Japanese">Japanese</option>
+                        <option value="French">French</option>
+                        <option value="Greek">Greek</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label for="dietary-restrictions">Dietary Restrictions</label>
+                    <select id="dietary-restrictions" multiple>
+                        <option value="Gluten">Gluten</option>
+                        <option value="Dairy">Dairy</option>
+                        <option value="Peanuts">Peanuts</option>
+                        <option value="Tree Nuts">Tree Nuts</option>
+                        <option value="Shellfish">Shellfish</option>
+                        <option value="Eggs">Eggs</option>
+                        <option value="Soy">Soy</option>
+                        <option value="Fish">Fish</option>
+                        <option value="Sesame">Sesame</option>
+                    </select>
+                    <p class="form-help">Hold Ctrl (or Cmd on Mac) to select multiple items</p>
+                </div>
+            </div>
+            
+            <button type="submit">Save Preferences</button>
+        </form>
+    </div>
+
+    <script src="auth.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Check if user is logged in
+            const user = JSON.parse(localStorage.getItem("user") || "null");
+            if (!user) {
+                window.location.href = "login.html";
+                return;
+            }
+            
+            // Display username
+            document.getElementById("username-display").textContent = `Username: ${user.username}`;
+            
+            // Load user preferences
+            loadUserPreferences(user.id);
+            
+            // Set up form submission
+            document.getElementById("preferences-form").addEventListener("submit", function(e) {
+                e.preventDefault();
+                saveUserPreferences(user.id);
+            });
+        });
+        
+        async function loadUserPreferences(userId) {
+            try {
+                const response = await fetch(`/api/users/${userId}/preferences`);
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    
+                    // Set preferred cuisine
+                    if (data.preferredCuisine) {
+                        document.getElementById("preferred-cuisine").value = data.preferredCuisine;
+                    }
+                    
+                    // Set dietary restrictions
+                    if (data.dietaryRestrictions) {
+                        const restrictions = data.dietaryRestrictions.split(',');
+                        const options = document.getElementById("dietary-restrictions").options;
+                        
+                        for (let i = 0; i < options.length; i++) {
+                            if (restrictions.includes(options[i].value)) {
+                                options[i].selected = true;
+                            }
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error("Failed to load preferences:", error);
+            }
+        }
+        
+        async function saveUserPreferences(userId) {
+            const preferredCuisine = document.getElementById("preferred-cuisine").value;
+            
+            // Get selected dietary restrictions
+            const selectedRestrictions = [];
+            const options = document.getElementById("dietary-restrictions").options;
+            
+            for (let i = 0; i < options.length; i++) {
+                if (options[i].selected) {
+                    selectedRestrictions.push(options[i].value);
+                }
+            }
+            
+            const dietaryRestrictions = selectedRestrictions.join(',');
+            
+            try {
+                const response = await fetch(`/api/users/${userId}/preferences`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        preferredCuisine,
+                        dietaryRestrictions
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(data.error || "Failed to save preferences");
+                }
+                
+                // Show success message
+                const successMsg = document.getElementById("profile-success");
+                successMsg.textContent = "Preferences saved successfully!";
+                successMsg.style.display = "block";
+                
+                // Hide after 3 seconds
+                setTimeout(() => {
+                    successMsg.style.display = "none";
+                }, 3000);
+                
+            } catch (error) {
+                // Show error message
+                const errorMsg = document.getElementById("profile-error");
+                errorMsg.textContent = error.message;
+                errorMsg.style.display = "block";
+                
+                // Hide after 3 seconds
+                setTimeout(() => {
+                    errorMsg.style.display = "none";
+                }, 3000);
+            }
+        }
+    </script>
+</body>
+</html>

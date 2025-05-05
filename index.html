@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FFTS - Food For The Soul</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link to CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Pacifico&display=swap" rel="stylesheet"> <!-- Fonts -->
+    <style>
+        #auth-links {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 15px;
+        }
+        
+        #auth-links a {
+            color: #d85c3a;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            transition: background-color 0.3s ease;
+        }
+        
+        #auth-links a:hover {
+            background-color: white;
+        }
+        
+        #auth-links span {
+            color: #7c5e3a;
+            font-weight: bold;
+            padding: 8px 15px;
+            border-radius: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .logged-in-only {
+            display: none;
+        }
+        
+        .logged-out-only {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <header>
+            <div id="auth-links">
+                <!-- Auth links will be dynamically inserted here by auth.js -->
+            </div>
+            
+            <h1 class="animated-title">FFTS</h1>
+            <p class="animated-subtitle">Food for the Soul</p>
+        </header>
+
+        <div class="description">
+            <p>Welcome to FFTS, your one-stop solution to discovering delicious recipes tailored to your taste. Simply enter ingredients separated by commas and choose a cuisine to find recipes that fit your mood and pantry. Let's make cooking a joy!</p>
+        </div>
+
+        <form id="ingredient-form">
+            <input type="text" id="ingredient-input" placeholder="Enter ingredients (e.g., chicken, rice, tomato)" required>
+            <select id="cuisine-input">
+                <option value="">Any Cuisine</option>
+                <option value="italian">Italian</option>
+                <option value="mexican">Mexican</option>
+                <option value="indian">Indian</option>
+                <option value="chinese">Chinese</option>
+                <option value="thai">Thai</option>
+            </select>
+            <button type="submit">Search Recipes</button>
+        </form>
+    </div>
+
+    <!-- Recommended Recipes Section -->
+    <div id="recommended-recipes" class="recipe-container">
+        <!-- Recommended recipes will be loaded here -->
+    </div>
+
+    <div id="loader" style="display: none;">Loading...</div>
+
+    <!-- Search Results Section -->
+    <section id="recipes" class="recipe-container">
+        <!-- Search results will be loaded here -->
+    </section>
+
+    <script src="auth.js"></script>
+    <script src="recipe-manager.js"></script>
+    <script src="updated-script.js"></script>
+</body>
+</html>
